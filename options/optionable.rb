@@ -1,7 +1,6 @@
 module Optionable
   def self.included(base)
     base.extend(ClassMethods)
-    puts "included"
   end
 
   module ClassMethods
