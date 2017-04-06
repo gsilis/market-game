@@ -1,9 +1,16 @@
 module Optionable
-  def self.all
-    self.constants
+  def self.included(base)
+    base.extend(ClassMethods)
+    puts "included"
   end
 
-  def self.random
-    all.sample
+  module ClassMethods
+    def all
+      self.constants
+    end
+
+    def random
+      self.all.sample
+    end
   end
 end
