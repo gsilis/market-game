@@ -8,6 +8,10 @@ module Game
       @products
     end
 
+    def include?(value)
+      all.map(&:name).include? value
+    end
+
     private
     def default_products
       [
@@ -21,6 +25,8 @@ module Game
 
   private
   class Product
+    attr_reader :name, :range
+
     def initialize(name, range)
       @name = name
       @range = range

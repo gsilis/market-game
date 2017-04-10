@@ -11,5 +11,9 @@ module Optionable
     def random
       self.all.sample
     end
+
+    def include?(value)
+      self.all.include? value
+    end
   end
 end
