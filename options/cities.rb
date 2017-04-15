@@ -6,6 +6,7 @@ module Game
 
     AMSTERDAM = 'amsterdam'
     BANGKOK = 'bangkok'
+    BARCELONA = 'barcelona'
     BERLIN = 'berlin'
     CHICAGO = 'chicago'
     HONG_KONG = 'hong kong'
