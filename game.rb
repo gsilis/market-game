@@ -19,6 +19,7 @@ module Game
     end
 
     def travel(city)
+      city = Cities.normalize city
       return false unless Cities.include?(city)
 
       @location.name = city

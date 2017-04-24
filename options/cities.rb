@@ -14,5 +14,17 @@ module Game
     LIMA = 'lima'
     MEXICO_CITY = 'mexico city'
     MOSCOW = 'moscow'
+
+    def self.normalize(city = '')
+      case city
+      when Symbol
+        city = city.to_s
+      end
+      city.sub(/[^a-zA-Z]/, '_').upcase.to_sym
+    end
+
+    def self.find(city = '')
+      self.include? self.normalize(city)
+    end
   end
 end
