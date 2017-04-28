@@ -1,0 +1,16 @@
+class CommandName
+  BUY = 'buy'
+  DEPOSIT = 'deposit'
+  HELP = 'help'
+  LOAD = 'load'
+  NO = 'no'
+  QUIT = 'quit'
+  SAVE = 'save'
+  SELL = 'sell'
+  START = 'start'
+  STASH = 'stash'
+  STATUS = 'status'
+  TRAVEL = 'travel'
+  WITHDRAW = 'withdraw'
+  YES = 'yes'
+end
