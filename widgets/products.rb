@@ -9,17 +9,25 @@ module Game
     end
 
     def include?(value)
-      all.map(&:name).include? value
+      all.map(&:name).include? normalize(value)
     end
 
     private
     def default_products
       [
-        Product.new('Lorem', 1..10),
-        Product.new('Ipsum', 11..30),
-        Product.new('Sumet', 40..75),
-        Product.new('Donec', 100..150)
+        Product.new('lorem', 1..10),
+        Product.new('ipsum', 11..30),
+        Product.new('sumet', 40..75),
+        Product.new('donec', 100..150)
       ]
+    end
+
+    def normalize(name = '')
+      case name
+      when Symbol
+        value = value.to_s
+      end
+      name
     end
   end
 
