@@ -1,5 +1,5 @@
 class StartCommand < Command
-  def run
+  def run(parts = nil)
     @system.game = @game = Game::Game.new
     print_welcome
     true

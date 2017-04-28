@@ -1,5 +1,6 @@
 class CommandName
   BUY = 'buy'
+  CITIES = 'cities'
   DEPOSIT = 'deposit'
   HELP = 'help'
   LOAD = 'load'

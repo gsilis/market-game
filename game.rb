@@ -27,9 +27,11 @@ module Game
       true
     end
 
-    def buy(product_name, quantity)
+    def buy(product_name, quantity = nil)
       return false unless @products.include?(product_name)
+      current_funds = @wallet.balance
       price = @prices.price_for product_name
+      quantity = current_funds / price if quantity.nil?
       amount = price * quantity
       return false unless @wallet.debit amount
       @inventory.update_for product_name, quantity
@@ -73,8 +75,16 @@ module Game
       @inventory.levels
     end
 
+    def count_for(product_name)
+      @inventory.count_for product_name
+    end
+
     def city
       @location.name
+    end
+
+    def cities
+      Cities.all
     end
   end
 end

@@ -1,5 +1,5 @@
 class QuitCommand < Command
-  def run
+  def run(parts = nil)
     reply = prompt
     has_game = !@system.game.nil?
 

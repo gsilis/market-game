@@ -1,5 +1,5 @@
 class HelpCommand < Command
-  def run
+  def run(parts = nil)
     if @game.nil?
       parts = main_menu
     else

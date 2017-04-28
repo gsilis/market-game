@@ -18,6 +18,10 @@ class Command
     input
   end
 
+  def run(parts = nil)
+    true
+  end
+
   def result(text, clear_line = false)
     text = "↳ #{text}"
     text += "\n\n" if clear_line
