@@ -25,7 +25,7 @@ module Game
     def normalize(name = '')
       case name
       when Symbol
-        value = value.to_s
+        name = name.to_s
       end
       name
     end

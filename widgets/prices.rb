@@ -5,10 +5,18 @@ module Game
     end
 
     def price_for(name)
-      @prices[name] || 0
+      @prices[normalize(name)] || 0
     end
 
     private
+    def normalize(value)
+      case value
+      when Symbol
+        value = value.to_s
+      end
+      value
+    end
+
     def calculate_prices(products)
       product_prices = {}
 
