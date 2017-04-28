@@ -25,7 +25,28 @@ class Command
   end
 
   def print(lines, clear_line = false)
-    puts lines.join("\n")
+    puts "\n" + lines.join("\n")
     puts "\n" if clear_line
+  end
+
+  def print_title(text)
+    divider = '-' * 100
+    puts "#{text}\n#{divider}"
+  end
+
+  def print_table(lines, clear_line = false)
+    spacer = '-' * lines.inject(0) do |max_length, part|
+      max_length = part.size if part.size > max_length
+      max_length
+    end
+
+    combined_lines = [spacer]
+
+    lines.each do |line|
+      combined_lines << line
+      combined_lines << divider
+    end
+
+    print_lines combined_lines, clear_line
   end
 end

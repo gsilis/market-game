@@ -1,6 +1,6 @@
 class StartCommand < Command
   def run
-    @system.game = Game::Game.new
+    @system.game = @game = Game::Game.new
     print_welcome
     true
   end
@@ -8,10 +8,11 @@ class StartCommand < Command
   private
   def print_welcome
     lines = [
-      '',
-      'New game created!',
+      "You wake up in #{@game.city} with $#{@game.cash} in your pocket.",
+      'Type \'help\' for available commands'
     ]
 
+    print_title 'New Game'
     print lines, true
   end
 end

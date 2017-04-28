@@ -1,7 +1,6 @@
 class HelpCommand < Command
   def run
     parts = [
-      '',
       'buy        [product_name], [quantity]    Buys quantity of product. Omit quantity to buy maximum.',
       'cities                                   Lists the available cities to travel to.',
       'deposit    [amount]                      Deposits money into your bank account.',
@@ -12,19 +11,8 @@ class HelpCommand < Command
       'withdraw   [amount]                      Withdraws money from your bank account.',
     ]
 
-    spacer = '-' * parts.inject(0) do |max_length, part|
-      max_length = part.size if part.size > max_length
-      max_length
-    end
-
-    combined_parts = []
-
-    parts.each do |part|
-      combined_parts << part
-      combined_parts << spacer
-    end
-
-    print combined_parts, true
+    print_title 'Available Commands'
+    print_table parts, true
     true
   end
 end
