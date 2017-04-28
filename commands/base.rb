@@ -24,13 +24,13 @@ class Command
     puts text
   end
 
-  def print(lines, clear_line = false)
+  def print_lines(lines, clear_line = false)
     puts "\n" + lines.join("\n")
     puts "\n" if clear_line
   end
 
   def print_title(text)
-    divider = '-' * 100
+    divider = '=' * text.size
     puts "#{text}\n#{divider}"
   end
 
@@ -44,7 +44,7 @@ class Command
 
     lines.each do |line|
       combined_lines << line
-      combined_lines << divider
+      combined_lines << spacer
     end
 
     print_lines combined_lines, clear_line

@@ -13,6 +13,6 @@ class StartCommand < Command
     ]
 
     print_title 'New Game'
-    print lines, true
+    print_lines lines, true
   end
 end
