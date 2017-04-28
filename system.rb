@@ -4,15 +4,25 @@ require './commands/name'
 require './commands/quit'
 require './commands/start'
 require './commands/unknown';
+require './game'
 
 module Game
   class System
+    attr_accessor :game
+
     def initialize
       @game = nil
     end
 
     def prompt
-      'marketplace> '
+      if @game
+        city = @game.city
+        cash = @game.cash
+
+        "#{city} with $#{cash} > "
+      else
+        'marketplace > '
+      end
     end
 
     def handle_input(possible_command)

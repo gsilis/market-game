@@ -10,7 +10,6 @@ class HelpCommand < Command
       'status                                   Displays detailed status.',
       'travel     [city_name]                   Travels to another city.',
       'withdraw   [amount]                      Withdraws money from your bank account.',
-      ''
     ]
 
     spacer = '-' * parts.inject(0) do |max_length, part|
@@ -18,7 +17,14 @@ class HelpCommand < Command
       max_length
     end
 
-    puts parts.join("\n#{spacer}\n") + "\n"
+    combined_parts = []
+
+    parts.each do |part|
+      combined_parts << part
+      combined_parts << spacer
+    end
+
+    print combined_parts, true
     true
   end
 end

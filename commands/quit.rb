@@ -1,10 +1,12 @@
 class QuitCommand < Command
   def run
     reply = prompt
+    has_game = !@system.game.nil?
 
     case reply
     when CommandName::YES
-      return false
+      @system.game = nil if has_game
+      return has_game
     when CommandName::NO
       return true
     end

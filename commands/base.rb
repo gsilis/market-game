@@ -23,4 +23,9 @@ class Command
     text += "\n\n" if clear_line
     puts text
   end
+
+  def print(lines, clear_line = false)
+    puts lines.join("\n")
+    puts "\n" if clear_line
+  end
 end
