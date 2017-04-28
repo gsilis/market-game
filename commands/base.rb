@@ -31,7 +31,7 @@ class Command
 
   def print_title(text)
     divider = '=' * text.size
-    puts "#{text}\n#{divider}"
+    print_lines [text, divider], true
   end
 
   def print_table(lines, clear_line = false)
