@@ -10,11 +10,15 @@ class HelpCommand < Command
       'status                                   Displays detailed status.',
       'travel     [city_name]                   Travels to another city.',
       'withdraw   [amount]                      Withdraws money from your bank account.',
-      '',
       ''
     ]
 
-    puts parts.join("\n")
+    spacer = '-' * parts.inject(0) do |max_length, part|
+      max_length = part.size if part.size > max_length
+      max_length
+    end
+
+    puts parts.join("\n#{spacer}\n") + "\n"
     true
   end
 end

@@ -1,13 +1,19 @@
 require 'readline'
 
 class Command
-  def initialize(system, game)
+  def initialize(system = nil, game = nil)
     @system = system
     @game = game
   end
 
-  def prompt_for(prompt, clear_line = false)
-    input = Readline.readline("#{prompt} > ", false)
+  def prompt_for(prompt, responses, clear_line = false)
+    allowed_responses = ''
+
+    if responses.size > 0
+      allowed_responses = "[#{responses.join('|')}]"
+    end
+
+    input = Readline.readline("#{prompt} #{allowed_responses} > ", false)
     puts "\n" if clear_line
     input
   end
