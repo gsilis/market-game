@@ -8,12 +8,16 @@ require './widgets/wallet'
 
 module Game
   class Game
-    attr_reader :prices, :products
-    def initialize
-      @wallet = Wallet.new 100
-      @account = Account.new 0
-      @inventory = Inventory.new
-      @location = Location.new Cities.random
+    attr_reader :prices, :products, :filename
+
+    def initialize(filename = nil, wallet = 100, account = 0, inventory = nil, location = nil)
+      location = location || Cities.random
+
+      @filename = Time.now.strftime('%Y-%m-%d@%H:%m:%S')
+      @wallet = Wallet.new wallet
+      @account = Account.new account
+      @inventory = Inventory.new inventory
+      @location = Location.new location
       @products = Products.new
       @prices = Prices.new @products.all
     end
@@ -23,6 +27,11 @@ module Game
       return false unless Cities.include?(city)
 
       @location.name = city
+      reprice
+      true
+    end
+
+    def reprice
       @prices = Prices.new @products.all
       true
     end
@@ -79,12 +88,25 @@ module Game
       @inventory.count_for product_name
     end
 
+    def price_for(product_name)
+      @prices.price_for product_name
+    end
+
     def city
       @location.name
     end
 
     def cities
-      Cities.all
+      Cities.all.map &:downcase
+    end
+
+    def to_json
+      {
+        wallet: @wallet.balance,
+        account: @account.balance,
+        location: @location.name,
+        inventory: @inventory.levels,
+      }
     end
   end
 end

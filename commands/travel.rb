@@ -8,6 +8,6 @@ class TravelCommand < Command
       result("Could not travel to '#{city_name}'. Try listing cities with the 'cities' command.", true)
     end
 
-    true
+    PricesCommand.new(@system, @game).run(parts)
   end
 end

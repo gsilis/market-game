@@ -6,7 +6,6 @@ class HelpCommand < Command
       parts = game_menu
     end
 
-    print_title 'Available Commands'
     print_table parts, true
     true
   end

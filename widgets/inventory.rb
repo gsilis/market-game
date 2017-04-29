@@ -1,7 +1,7 @@
 module Game
   class Inventory
-    def initialize
-      @products = {}
+    def initialize(inventory = nil)
+      @products = inventory || {}
     end
 
     def update_for(name, amount)

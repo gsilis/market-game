@@ -14,6 +14,7 @@ require './commands/status'
 require './commands/travel'
 require './commands/unknown'
 require './commands/withdraw'
+require './commands/wait'
 require './game'
 
 module Game
@@ -73,6 +74,10 @@ module Game
         command = DepositCommand
       when CommandName::WITHDRAW
         command = WithdrawCommand
+      when CommandName::WAIT
+        command = WaitCommand
+      when CommandName::HELP
+        command = HelpCommand
       end
 
       command

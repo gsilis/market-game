@@ -5,6 +5,7 @@ class CommandName
   HELP = 'help'
   LOAD = 'load'
   NO = 'no'
+  PRICES = 'prices'
   QUIT = 'quit'
   SAVE = 'save'
   SELL = 'sell'
@@ -12,6 +13,7 @@ class CommandName
   STASH = 'stash'
   STATUS = 'status'
   TRAVEL = 'travel'
+  WAIT = 'wait'
   WITHDRAW = 'withdraw'
   YES = 'yes'
 end

@@ -5,7 +5,9 @@ module Optionable
 
   module ClassMethods
     def all
-      self.constants
+      self.constants.reject do |name|
+        name == :ClassMethods
+      end
     end
 
     def random
