@@ -5,9 +5,9 @@ class LoadCommand < Command
     if filename.nil?
       print_files
     elsif load_file(filename)
-      result("Loaded game.", true)
+      print_result("Loaded game.", true)
     else
-      result("Could not load file. Try running 'load' without a filename to see all files.", true)
+      print_result("Could not load file. Try running 'load' without a filename to see all files.", true)
     end
 
     true
@@ -43,7 +43,7 @@ class LoadCommand < Command
     if list.size > 0
       print_lines list, true
     else
-      result 'There are no save files.', true
+      print_result 'There are no save files.', true
     end
   end
 

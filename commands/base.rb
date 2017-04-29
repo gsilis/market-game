@@ -6,23 +6,15 @@ class Command
     @game = game
   end
 
-  def prompt_for(prompt, responses, clear_line = false)
-    allowed_responses = ''
-
-    if responses.size > 0
-      allowed_responses = "[#{responses.join('|')}]"
-    end
-
-    input = Readline.readline("#{prompt} #{allowed_responses} > ", false)
-    print "\n" if clear_line
-    input
-  end
-
   def run(parts = nil)
     true
   end
 
-  def result(text, clear_line = false)
+  def print(line)
+    puts "    #{line}"
+  end
+
+  def print_result(text, clear_line = false)
     text = "↳ #{text}"
     text += "\n\n" if clear_line
     print text
@@ -57,6 +49,18 @@ class Command
     print_lines combined_lines, clear_line
   end
 
+  def prompt_for(prompt, responses, clear_line = false)
+    allowed_responses = ''
+
+    if responses.size > 0
+      allowed_responses = "[#{responses.join('|')}]"
+    end
+
+    input = Readline.readline("#{prompt} #{allowed_responses} > ", false)
+    print "\n" if clear_line
+    input
+  end
+
   def format_line(columns)
     formatted = columns.map do |config|
       text = config[:text]
@@ -71,9 +75,5 @@ class Command
         "#{text}#{spacing}"
       end
     end.join('')
-  end
-
-  def print(line)
-    puts "    #{line}"
   end
 end

@@ -3,9 +3,9 @@ class SaveCommand < Command
     data = Marshal.dump @game.to_json
 
     if File.write("./saves/#{@game.filename}", data) > 0
-      result("Saved game to #{@game.filename}", true)
+      print_result("Saved game to #{@game.filename}", true)
     else
-      result('Could not save the game', true)
+      print_result('Could not save the game', true)
     end
 
     true

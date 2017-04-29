@@ -15,9 +15,9 @@ class SellCommand < Command
     if product_name && @game.sell(product_name, quantity)
       ending_quantity = @game.count_for(product_name)
       difference = starting_quantity - ending_quantity
-      result("Sold #{Game::Strings.humanize(difference)} of #{product_name}.", true)
+      print_result("Sold #{Game::Strings.humanize(difference)} of #{product_name}.", true)
     else
-      result("Could not sell #{product_name}. Is it really a product?", true);
+      print_result("Could not sell #{product_name}. Is it really a product?", true);
     end
 
     true
