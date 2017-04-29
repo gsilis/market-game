@@ -5,6 +5,7 @@ require './widgets/location'
 require './widgets/prices'
 require './widgets/products'
 require './widgets/wallet'
+require './widgets/strings'
 
 module Game
   class Game
@@ -93,7 +94,7 @@ module Game
     end
 
     def city
-      @location.name
+      Strings::titleize @location.name
     end
 
     def cities
