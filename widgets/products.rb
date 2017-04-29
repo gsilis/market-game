@@ -1,11 +1,19 @@
 module Game
   class Products
-    def initialize(products = nil)
-      @products = products || default_products
+    def initialize(products)
+      @products = products
     end
 
     def all
       @products
+    end
+
+    def find_by_name(name)
+      candidates = all.select do |item|
+        item.name == name
+      end
+
+      candidates[0]
     end
 
     def include?(value)
@@ -13,15 +21,6 @@ module Game
     end
 
     private
-    def default_products
-      [
-        Product.new('lorem', 1..10),
-        Product.new('ipsum', 11..30),
-        Product.new('sumet', 40..75),
-        Product.new('donec', 100..150)
-      ]
-    end
-
     def normalize(name = '')
       case name
       when Symbol
@@ -37,6 +36,10 @@ module Game
     def initialize(name, range)
       @name = name
       @range = range
+    end
+
+    def title
+      Strings::titleize @name
     end
 
     def re_range(new_min = nil, new_max = nil)

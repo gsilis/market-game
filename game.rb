@@ -1,4 +1,3 @@
-require './options/cities'
 require './widgets/account'
 require './widgets/inventory'
 require './widgets/location'
@@ -12,29 +11,28 @@ module Game
     attr_reader :prices, :products, :filename
 
     def initialize(filename = nil, wallet = 100, account = 0, inventory = nil, location = nil, cycles = 0)
-      location = location || Cities.random
-
       @filename = Time.now.strftime('%Y-%m-%d@%H:%m:%S')
       @wallet = Wallet.new wallet
       @account = Account.new account, 1.001
       @inventory = Inventory.new inventory
-      @location = Location.new location
-      @products = Products.new
-      @cities = Products.new cities_as_products
+      @products = Products.new default_products
+      @cities = Products.new default_cities
       @prices = Prices.new @products.all
       @tickets = Prices.new @cities.all
       @cycles = cycles
       @waits = 0
+      @location = Location.new (location || @cities.all.sample)
     end
 
     def travel(city)
-      city = Cities.normalize city
-      price = ticket_for city
-      return false unless Cities.include?(city)
+      city = @cities.find_by_name city
+      return false if city.nil?
+
+      price = ticket_for city.name
       return false unless price > 0
 
       return false unless @wallet.debit(price)
-      @location.name = city
+      @location.city = city
       @cycles += 1
       @waits = 0
       reprice
@@ -115,37 +113,53 @@ module Game
       @tickets.price_for city_name
     end
 
-    def tickets
-      @tickets
-    end
-
     def city
-      Strings::titleize @location.name
+      @location.city.title
     end
 
     def cities
-      Cities.all.map &:downcase
+      @cities.all
     end
 
     def to_json
       {
         wallet: @wallet.balance,
         account: @account.balance,
-        location: @location.name,
+        location: @location.city,
         inventory: @inventory.levels,
       }
     end
 
     private
-    def cities_as_products
-      Cities.all.map do |city|
-        Product.new city, 10..100
-      end
-    end
-
     def accrue_interest
       if @cycles % 4 == 0
         @account.accrue_interest
+      end
+    end
+
+    def default_products
+      [
+        Product.new('lorem', 1..10),
+        Product.new('ipsum', 11..30),
+        Product.new('sumet', 40..75),
+        Product.new('donec', 100..150)
+      ]
+    end
+
+    def default_cities
+      [
+        'amsterdam',
+        'bangkok',
+        'barcelona',
+        'berlin',
+        'chicago',
+        'hong kong',
+        'lagos',
+        'lima',
+        'mexico city',
+        'moscow'
+      ].map do |city|
+        Product.new city, 10..100
       end
     end
   end
