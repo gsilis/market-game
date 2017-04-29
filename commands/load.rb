@@ -39,9 +39,11 @@ class LoadCommand < Command
       "#{index + 1} - #{name}"
     end
 
-    list.push('There are no save files') if list.size <= 0
-
-    print_lines list, true
+    if list.size > 0
+      print_lines list, true
+    else
+      result 'There are no save files.', true
+    end
   end
 
   def files
