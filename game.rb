@@ -11,7 +11,7 @@ module Game
     attr_reader :prices, :products, :filename
 
     def initialize(filename = nil, wallet = 100, account = 0, inventory = nil, location = nil, cycles = 0)
-      @filename = Time.now.strftime('%Y-%m-%d@%H:%m:%S')
+      @filename = filename || Time.now.strftime('%Y-%m-%d@%H:%m:%S')
       @wallet = Wallet.new wallet
       @account = Account.new account, 1.001
       @inventory = Inventory.new inventory
@@ -127,6 +127,7 @@ module Game
         account: @account.balance,
         location: @location.city,
         inventory: @inventory.levels,
+        cycles: @cycles,
       }
     end
 
