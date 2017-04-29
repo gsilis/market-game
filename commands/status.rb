@@ -16,7 +16,9 @@ class StatusCommand < Command
       ]
     end
 
-    return if level_lines.size == 0
+    if level_lines.size == 0
+      level_lines << format_line([{ text: 'Nothing in inventory', padding: 60 }])
+    end
 
     print_table [''] + level_lines
   end
