@@ -41,7 +41,6 @@ class LoadCommand < Command
 
     list.push('There are no save files') if list.size <= 0
 
-    print_title 'Save files'
     print_lines list, true
   end
 

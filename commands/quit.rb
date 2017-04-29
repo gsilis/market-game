@@ -3,11 +3,10 @@ class QuitCommand < Command
     reply = prompt
     has_game = !@system.game.nil?
 
-    case reply
-    when CommandName::YES
+    if CommandName::YES.include? reply
       @system.game = nil if has_game
       return has_game
-    when CommandName::NO
+    else
       return true
     end
 
@@ -16,6 +15,6 @@ class QuitCommand < Command
 
   private
   def prompt
-    prompt_for('Are you sure you want to quit?', [CommandName::YES, CommandName::NO], true)
+    prompt_for('Are you sure you want to quit?', [CommandName::YES[0], CommandName::NO[0]], true)
   end
 end

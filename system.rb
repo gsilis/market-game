@@ -51,51 +51,46 @@ module Game
 
     private
     def handle_game_input(possible_command)
-      case possible_command
-      when CommandName::QUIT
-        command = QuitCommand
-      when CommandName::STATUS
-        command = StatusCommand
-      when CommandName::SAVE
-        command = SaveCommand
-      when CommandName::BUY
-        command = BuyCommand
-      when CommandName::SELL
-        command = SellCommand
-      when CommandName::SAVE
-        command = SaveCommand
-      when CommandName::TRAVEL
-        command = TravelCommand
-      when CommandName::CITIES
-        command = CitiesCommand
-      when CommandName::PRICES
-        command = PricesCommand
-      when CommandName::DEPOSIT
-        command = DepositCommand
-      when CommandName::WITHDRAW
-        command = WithdrawCommand
-      when CommandName::WAIT
-        command = WaitCommand
-      when CommandName::HELP
-        command = HelpCommand
-      end
+      available = [
+        CommandName::BUY,
+        CommandName::CITIES,
+        CommandName::DEPOSIT,
+        CommandName::HELP,
+        CommandName::PRICES,
+        CommandName::QUIT,
+        CommandName::SAVE,
+        CommandName::SELL,
+        CommandName::STATUS,
+        CommandName::TRAVEL,
+        CommandName::WAIT,
+        CommandName::WITHDRAW,
+      ]
 
-      command
+      find_command_in available, possible_command
     end
 
     def handle_menu_input(possible_command)
-      case possible_command
-      when CommandName::QUIT
-        command = QuitCommand
-      when CommandName::START
-        command = StartCommand
-      when CommandName::HELP
-        command = HelpCommand
-      when CommandName::LOAD
-        command = LoadCommand
+      available = [
+        CommandName::HELP,
+        CommandName::LOAD,
+        CommandName::QUIT,
+        CommandName::START,
+      ]
+
+      find_command_in available, possible_command
+    end
+
+    def find_command_in(list, possible_command)
+      found_command = nil
+      base_name = nil
+
+      list.each do |command|
+        if command.include? possible_command
+          found_command = command[0]
+        end
       end
 
-      command
+      Object.const_get(found_command.capitalize + 'Command') if found_command
     end
   end
 end

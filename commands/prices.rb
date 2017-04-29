@@ -4,14 +4,14 @@ class PricesCommand < Command
     products = @game.products.all
     price_lines = products.map do |product|
       price = @game.price_for(product.name)
-      title_spacing = ' ' * (40 - product.name.size)
-      price_spacing = ' ' * (5 - price.to_s.size)
 
-      "#{product.name}#{title_spacing}#{price_spacing}$#{price}"
+      format_line [
+        { text: product.name, padding: 30 },
+        { text: '$' + price.to_s, padding: 10, align: :right }
+      ]
     end
 
-    print_title "Product prices in #{city}"
-    print_table price_lines, true
+    print_table [''] + price_lines, true
 
     true
   end

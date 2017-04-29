@@ -13,6 +13,7 @@ class HelpCommand < Command
   private
   def main_menu
     [
+      '',
       'NAME       ARGUMENTS                     DESCRIPTION',
       'load                                     Lists all available game files',
       'load       [game_file_name]              Loads the specified game file',
@@ -23,6 +24,7 @@ class HelpCommand < Command
 
   def game_menu
     [
+      '',
       'NAME       ARGUMENTS                     DESCRIPTION',
       'buy        [product_name], [quantity]    Buys quantity of product. Omit quantity to buy maximum.',
       'cities                                   Lists the available cities to travel to.',

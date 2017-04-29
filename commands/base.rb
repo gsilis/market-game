@@ -14,7 +14,7 @@ class Command
     end
 
     input = Readline.readline("#{prompt} #{allowed_responses} > ", false)
-    puts "\n" if clear_line
+    print "\n" if clear_line
     input
   end
 
@@ -25,12 +25,15 @@ class Command
   def result(text, clear_line = false)
     text = "↳ #{text}"
     text += "\n\n" if clear_line
-    puts text
+    print text
   end
 
   def print_lines(lines, clear_line = false)
-    puts lines.join("\n")
-    puts "\n" if clear_line
+    lines.each do |line|
+      print line.to_s + "\n"
+    end
+
+    print "\n" if clear_line
   end
 
   def print_title(text, clear_line = false)
@@ -52,5 +55,25 @@ class Command
     end
 
     print_lines combined_lines, clear_line
+  end
+
+  def format_line(columns)
+    formatted = columns.map do |config|
+      text = config[:text]
+      align = config[:align] || :left
+      padding = config[:padding]
+
+      spacing = ' ' * (padding - text.size)
+
+      if align == :right
+        "#{spacing}#{text}"
+      else
+        "#{text}#{spacing}"
+      end
+    end.join('')
+  end
+
+  def print(line)
+    puts "    #{line}"
   end
 end
