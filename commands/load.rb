@@ -27,8 +27,9 @@ class LoadCommand < Command
       location = data[:location]
       inventory = data[:inventory]
       cycles = data[:cycles].to_i
+      space = data[:space].to_i
 
-      @system.game = Game::Game.new(filename, wallet, account, inventory, location, cycles)
+      @system.game = Game::Game.new(filename, wallet, account, inventory, space, location, cycles)
       true
     rescue
       false

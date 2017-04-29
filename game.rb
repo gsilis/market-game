@@ -10,11 +10,11 @@ module Game
   class Game
     attr_reader :prices, :products, :filename
 
-    def initialize(filename = nil, wallet = 100, account = 0, inventory = nil, location = nil, cycles = 0)
+    def initialize(filename = nil, wallet = 100, account = 0, inventory = nil, space = 50, location = nil, cycles = 0)
       @filename = filename || Time.now.strftime('%Y-%m-%d@%H:%m:%S')
       @wallet = Wallet.new wallet
       @account = Account.new account, 1.001
-      @inventory = Inventory.new inventory
+      @inventory = Inventory.new inventory, space
       @products = Products.new default_products
       @cities = Products.new default_cities
       @prices = Prices.new @products.all
@@ -59,6 +59,7 @@ module Game
       price = @prices.price_for product_name
       quantity = current_funds / price if quantity.nil?
       amount = price * quantity
+      return false unless @inventory.has_space_for(quantity)
       return false unless @wallet.debit amount
       @inventory.update_for product_name, quantity
       true
@@ -99,6 +100,10 @@ module Game
 
     def stash
       @inventory.levels
+    end
+
+    def space
+      @inventory.space
     end
 
     def count_for(product_name)

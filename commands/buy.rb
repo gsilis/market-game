@@ -15,7 +15,7 @@ class BuyCommand < Command
 
       print_result "Bought #{Game::Strings.humanize(bought_quantity)} of #{product_name}", true
     else
-      print_result "Could not buy #{product_name}. Is it actually a product?", true
+      print_result "Could not buy #{product_name}.", true
     end
 
     true

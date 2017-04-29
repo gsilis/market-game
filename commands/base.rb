@@ -28,9 +28,8 @@ class Command
     print "\n" if clear_line
   end
 
-  def print_title(text, clear_line = false)
-    divider = '=' * text.size
-    print_lines ['', text, divider], clear_line
+  def print_title(text, clear_line = false, padding = 60)
+    print_lines ['', text, '-' * padding], clear_line
   end
 
   def print_table(lines, clear_line = false)
