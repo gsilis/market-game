@@ -13,7 +13,7 @@ class BuyCommand < Command
     if product_name && @game.buy(product_name, quantity)
       bought_quantity = @game.count_for product_name
 
-      result "Bought #{bought_quantity} of #{product_name}", true
+      result "Bought #{Game::Strings.humanize(bought_quantity)} of #{product_name}", true
     else
       result "Could not buy #{product_name}. Is it actually a product?", true
     end

@@ -31,7 +31,6 @@ module Game
     end
   end
 
-  private
   class Product
     attr_reader :name, :range
 

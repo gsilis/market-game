@@ -17,7 +17,7 @@ class CommandName
   START = ['start', 'new']
   STATUS = ['status', 'st']
   TRAVEL = ['travel', 'go']
-  WAIT = ['wait', 'stay']
+  WAIT = ['wait', 'stay', 'w']
   WITHDRAW = ['withdraw']
   YES = ['yes', 'y']
 end

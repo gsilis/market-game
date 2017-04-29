@@ -6,8 +6,8 @@ class PricesCommand < Command
       price = @game.price_for(product.name)
 
       format_line [
-        { text: product.name, padding: 30 },
-        { text: '$' + price.to_s, padding: 10, align: :right }
+        { text: product.name.capitalize, padding: 30 },
+        { text: Game::Strings.monetize(price), padding: 30, align: :right }
       ]
     end
 

@@ -14,14 +14,15 @@ module Game
       when Symbol
         value = value.to_s
       end
-      value
+      (value || '').downcase
     end
 
     def calculate_prices(products)
       product_prices = {}
 
       products.each do |product|
-        product_prices[product.name] = rand product.range
+        normalized_product_name = normalize(product.name)
+        product_prices[normalized_product_name] = rand product.range
       end
 
       product_prices

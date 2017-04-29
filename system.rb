@@ -16,6 +16,9 @@ require './commands/unknown'
 require './commands/withdraw'
 require './commands/wait'
 require './game'
+require 'money'
+
+Money.default_formatting_rules = { en: { number: { currency: { symbol: { USD: '$' } } } } }
 
 module Game
   class System
@@ -30,9 +33,9 @@ module Game
         'marketplace > '
       else
         city = @game.city
-        cash = @game.cash
+        cash = Strings.monetize(@game.cash)
 
-        "#{city} with $#{cash} > "
+        "#{city} with #{cash} > "
       end
     end
 

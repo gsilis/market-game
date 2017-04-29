@@ -11,8 +11,8 @@ class StatusCommand < Command
     level_lines = @game.stash.select { |key, value| value > 0 }
     level_lines = level_lines.map do |key, value|
       format_line [
-        { text: key, padding: 20 },
-        { text: value, padding: 20, align: :right }
+        { text: key.capitalize, padding: 10 },
+        { text: Game::Strings.humanize(value), padding: 50, align: :right }
       ]
     end
 
@@ -27,8 +27,8 @@ class StatusCommand < Command
       Bank: @game.savings,
     }.map do |key, value|
       format_line [
-        { text: key.to_s, padding: 20 },
-        { text: '$' + value.to_s, padding: 20, align: :right }
+        { text: key.to_s.capitalize, padding: 10 },
+        { text: Game::Strings.monetize(value), padding: 50, align: :right }
       ]
     end
 

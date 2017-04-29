@@ -1,11 +1,15 @@
 class WithdrawCommand < Command
   def run(parts)
-    amount = parts[0].to_i
+    if parts[0] == 'all'
+      amount = @game.savings
+    else
+      amount = parts[0].to_i
+    end
 
     if amount && @game.withdraw(amount)
-      result("Withdrew $#{amount} from your account. Your balance is $#{@game.savings}.", true)
+      result("Withdrew #{Game::Strings.monetize(amount)} from your account. Your balance is #{Game::Strings.monetize(@game.savings)}.", true)
     else
-      result("Could not withdraw $#{amount}.")
+      result("Could not withdraw #{Game::Strings.monetize(amount)}.")
     end
 
     true
