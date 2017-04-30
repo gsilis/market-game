@@ -8,7 +8,7 @@ module Game
     def update_for(name, amount)
       current_amount = @products[name] || 0
 
-      if current_amount + amount >= 0 && item_count + amount < @space
+      if current_amount + amount >= 0 && item_count + amount <= @space
         @products[name] = current_amount + amount
         true
       else
@@ -18,6 +18,10 @@ module Game
 
     def count_for(name)
       @products[name] || 0
+    end
+    
+    def available_space
+      @space - item_count
     end
 
     def has_space_for(quantity)
