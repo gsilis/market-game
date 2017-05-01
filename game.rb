@@ -231,7 +231,7 @@ module Game
     def default_options
       {
         filename: Time.now.strftime('%Y-%m-%d@%H:%m:%S'),
-        wallet: 1000000000,
+        wallet: 100,
         account: 0,
         interest_rate: 1.001,
         inventory: nil,
