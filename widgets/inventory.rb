@@ -1,5 +1,7 @@
 module Game
   class Inventory
+    attr_reader :space
+
     def initialize(inventory = nil, space = nil)
       @products = inventory || {}
       @space = space || -1
@@ -32,11 +34,10 @@ module Game
       @products
     end
 
-    def space
-      [item_count, @space]
+    def space=(new_amount)
+      @space = new_amount
     end
 
-    private
     def item_count
       total = 0
 

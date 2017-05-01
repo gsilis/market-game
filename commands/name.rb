@@ -16,6 +16,7 @@ class CommandName
   SELL = ['sell']
   START = ['start', 'new']
   STATUS = ['status', 'st']
+  STORE = ['store']
   TRAVEL = ['travel', 'go']
   WAIT = ['wait', 'stay', 'w']
   WITHDRAW = ['withdraw']

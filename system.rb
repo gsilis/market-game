@@ -11,11 +11,13 @@ require './commands/save'
 require './commands/sell'
 require './commands/start'
 require './commands/status'
+require './commands/store'
 require './commands/travel'
 require './commands/unknown'
 require './commands/withdraw'
 require './commands/wait'
 require './game'
+require './widgets/commands';
 require 'money'
 
 Money.default_formatting_rules = { en: { number: { currency: { symbol: { USD: '$' } } } } }
@@ -64,12 +66,13 @@ module Game
         CommandName::SAVE,
         CommandName::SELL,
         CommandName::STATUS,
+        CommandName::STORE,
         CommandName::TRAVEL,
         CommandName::WAIT,
         CommandName::WITHDRAW,
       ]
 
-      find_command_in available, possible_command
+      Commands.find_command_in available, possible_command
     end
 
     def handle_menu_input(possible_command)
@@ -80,20 +83,7 @@ module Game
         CommandName::START,
       ]
 
-      find_command_in available, possible_command
-    end
-
-    def find_command_in(list, possible_command)
-      found_command = nil
-      base_name = nil
-
-      list.each do |command|
-        if command.include? possible_command
-          found_command = command[0]
-        end
-      end
-
-      Object.const_get(found_command.capitalize + 'Command') if found_command
+      Commands.find_command_in available, possible_command
     end
   end
 end

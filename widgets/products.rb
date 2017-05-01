@@ -31,11 +31,14 @@ module Game
   end
 
   class Product
-    attr_reader :name, :range
+    attr_reader :name, :description, :range
 
-    def initialize(name, range)
+    def initialize(name, description, range, effect_item = nil, &block)
       @name = name
+      @description = description
       @range = range
+      @effect_item = effect_item
+      @effect = block
     end
 
     def title
@@ -49,6 +52,11 @@ module Game
       return false if new_min >= new_max
 
       @range = Range.new new_min, new_max
+    end
+
+    def apply_effect(times)
+      return false if @effect.nil?
+      @effect.call @effect_item, times
     end
   end
 end

@@ -1,15 +1,22 @@
 class StatusCommand < Command
   def run(parts = nil)
-    print_inventory
+    inventory_space = @game.space
+
+    print_title "Inventory [#{inventory_space[0]}/#{inventory_space[1]}]", false
+    print_inventory @game.stash
+
     print_funds
+
+    print_title "Bought Items", false
+    print_inventory @game.bought_items
+    print_lines ['']
 
     true
   end
 
   private
-  def print_inventory
-    space = @game.space
-    level_lines = @game.stash.select { |key, value| value > 0 }
+  def print_inventory(inventory)
+    level_lines = inventory.select { |key, value| value > 0 }
     level_lines = level_lines.map do |key, value|
       format_line [
         { text: key.capitalize, padding: 10 },
@@ -18,10 +25,9 @@ class StatusCommand < Command
     end
 
     if level_lines.size == 0
-      level_lines << format_line([{ text: 'Nothing in inventory', padding: 60 }])
+      level_lines << format_line([{ text: 'Nothing here', padding: 60 }])
     end
 
-    print_title "Inventory [#{space[0]}/#{space[1]}]", false
     print_table level_lines
   end
 

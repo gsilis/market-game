@@ -14,6 +14,7 @@ module Game
       options = sanitize_options options
 
       account = options[:account]
+      bought_items = options[:bought_items]
       cycles = options[:cycles]
       filename = options[:filename]
       interest_rate = options[:interest_rate]
@@ -22,19 +23,20 @@ module Game
       space = options[:space]
       wallet = options[:wallet]
 
-      @filename = filename
-      @wallet = Wallet.new wallet
       @account = Account.new account, interest_rate
-      @inventory = Inventory.new inventory, space
-      @prices = Prices.new products.all
-      @tickets = Prices.new cities.all
+      @bought_items = Inventory.new bought_items, -1
       @cycles = cycles
-      @waits = 0
+      @filename = filename
+      @inventory = Inventory.new inventory, space
       @location = Location.new location
+      @waits = 0
+      @wallet = Wallet.new wallet
+
+      reprice
     end
 
     def travel(city)
-      city = @cities.find_by_name city
+      city = cities.find_by_name city
       return false if city.nil?
 
       price = ticket_for city.name
@@ -50,8 +52,9 @@ module Game
     end
 
     def reprice
-      @prices = Prices.new @products.all
-      @tickets = Prices.new @cities.all
+      @prices = Prices.new products.all
+      @store_prices = Prices.new store_items.all
+      @tickets = Prices.new cities.all
       true
     end
 
@@ -99,6 +102,18 @@ module Game
       true
     end
 
+    def store_purchase(product_name, quantity = nil)
+      product = @store_items.find_by_name product_name
+      return false if product.nil?
+      current_funds = @wallet.balance
+      price = @store_prices.price_for product_name
+      quantity = (current_funds / price) if quantity.nil?
+      amount = price * quantity
+      return false unless @wallet.debit amount
+      product.apply_effect quantity
+      true
+    end
+
     def cash
       @wallet.balance
     end
@@ -112,7 +127,11 @@ module Game
     end
 
     def space
-      @inventory.space
+      [@inventory.item_count, @inventory.space]
+    end
+
+    def bought_items
+      @bought_items.levels
     end
 
     def count_for(product_name)
@@ -125,6 +144,10 @@ module Game
 
     def ticket_for(city_name)
       @tickets.price_for city_name
+    end
+
+    def store_price_for(store_item_name)
+      @store_prices.price_for store_item_name
     end
 
     def city
@@ -141,14 +164,21 @@ module Game
       @products
     end
 
+    def store_items
+      @store_items ||= Products.new(default_store_items)
+      @store_items
+    end
+
     def to_json
       {
         account: @account.balance,
+        bought_items: @bought_items.levels,
         cycles: @cycles,
         filename: @filename,
         inventory: @inventory.levels,
+        interest_rate: @account.interest,
         location: @location.city,
-        space: @inventory.space[1],
+        space: @inventory.space,
         wallet: @wallet.balance,
       }
     end
@@ -162,10 +192,10 @@ module Game
 
     def default_products
       [
-        Product.new('lorem', 1..10),
-        Product.new('ipsum', 11..30),
-        Product.new('sumet', 40..75),
-        Product.new('donec', 100..150)
+        Product.new('lorem', '', 1..10),
+        Product.new('ipsum', '', 11..30),
+        Product.new('sumet', '', 40..75),
+        Product.new('donec', '', 100..150),
       ]
     end
 
@@ -182,14 +212,26 @@ module Game
         'mexico city',
         'moscow'
       ].map do |city|
-        Product.new city, 10..100
+        Product.new city, '', 10..100
       end
+    end
+
+    def default_store_items
+      [
+        Product.new('backpack', '+5 slots', 5000..5000, @inventory) do |inventory, quantity|
+          puts 'ADD SPACE'
+          inventory.space += ( 5 * quantity )
+        end,
+        Product.new('bank', '+0.001 interest rate', 10000..10000, @account) do |account, quantity|
+          account.interest += ( 0.001 * quantity )
+        end,
+      ]
     end
 
     def default_options
       {
         filename: Time.now.strftime('%Y-%m-%d@%H:%m:%S'),
-        wallet: 100,
+        wallet: 1000000000,
         account: 0,
         interest_rate: 1.001,
         inventory: nil,
