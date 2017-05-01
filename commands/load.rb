@@ -26,6 +26,7 @@ class LoadCommand < Command
         wallet: data[:wallet].to_i,
         account: data[:account].to_i,
         location: data[:location],
+        interest_rate: data[:interest_rate].to_f,
         inventory: data[:inventory],
         cycles: data[:cycles].to_i,
         space: data[:space].to_i,
