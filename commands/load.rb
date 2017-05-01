@@ -22,14 +22,16 @@ class LoadCommand < Command
     begin
       contents = File.read("./saves/#{filename}")
       data = Marshal.load contents
-      wallet = data[:wallet].to_i
-      account = data[:account].to_i
-      location = data[:location]
-      inventory = data[:inventory]
-      cycles = data[:cycles].to_i
-      space = data[:space].to_i
+      options = {
+        wallet: data[:wallet].to_i,
+        account: data[:account].to_i,
+        location: data[:location],
+        inventory: data[:inventory],
+        cycles: data[:cycles].to_i,
+        space: data[:space].to_i,
+      }
 
-      @system.game = Game::Game.new(filename, wallet, account, inventory, space, location, cycles)
+      @system.game = Game::Game.new(options)
       true
     rescue
       false

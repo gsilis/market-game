@@ -1,6 +1,6 @@
 class WithdrawCommand < Command
   def run(parts)
-    if parts[0] == 'all'
+    if ['', 'all'].include? parts[0]
       amount = @game.savings
     else
       amount = parts[0].to_i

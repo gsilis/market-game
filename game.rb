@@ -8,20 +8,29 @@ require './widgets/strings'
 
 module Game
   class Game
-    attr_reader :prices, :products, :filename
+    attr_reader :prices, :filename
 
-    def initialize(filename = nil, wallet = 1000, account = 0, inventory = nil, space = 50, location = nil, cycles = 0)
-      @filename = filename || Time.now.strftime('%Y-%m-%d@%H:%m:%S')
+    def initialize(options = {})
+      options = sanitize_options options
+
+      account = options[:account]
+      cycles = options[:cycles]
+      filename = options[:filename]
+      interest_rate = options[:interest_rate]
+      inventory = options[:inventory]
+      location = options[:location]
+      space = options[:space]
+      wallet = options[:wallet]
+
+      @filename = filename
       @wallet = Wallet.new wallet
-      @account = Account.new account, 1.001
+      @account = Account.new account, interest_rate
       @inventory = Inventory.new inventory, space
-      @products = Products.new default_products
-      @cities = Products.new default_cities
-      @prices = Prices.new @products.all
-      @tickets = Prices.new @cities.all
+      @prices = Prices.new products.all
+      @tickets = Prices.new cities.all
       @cycles = cycles
       @waits = 0
-      @location = Location.new (location || @cities.all.sample)
+      @location = Location.new location
     end
 
     def travel(city)
@@ -123,16 +132,24 @@ module Game
     end
 
     def cities
-      @cities.all
+      @cities ||= Products.new(default_cities)
+      @cities
+    end
+
+    def products
+      @products ||= Products.new(default_products)
+      @products
     end
 
     def to_json
       {
-        wallet: @wallet.balance,
         account: @account.balance,
-        location: @location.city,
-        inventory: @inventory.levels,
         cycles: @cycles,
+        filename: @filename,
+        inventory: @inventory.levels,
+        location: @location.city,
+        space: @inventory.space[1],
+        wallet: @wallet.balance,
       }
     end
 
@@ -167,6 +184,23 @@ module Game
       ].map do |city|
         Product.new city, 10..100
       end
+    end
+
+    def default_options
+      {
+        filename: Time.now.strftime('%Y-%m-%d@%H:%m:%S'),
+        wallet: 100,
+        account: 0,
+        interest_rate: 1.001,
+        inventory: nil,
+        space: 50,
+        location: cities.all.sample,
+        cycles: 0,
+      }
+    end
+
+    def sanitize_options(options = {})
+      default_options.merge(options.reject{ |key, val| val.nil? })
     end
   end
 end

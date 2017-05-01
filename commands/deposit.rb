@@ -1,6 +1,6 @@
 class DepositCommand < Command
   def run(parts)
-    if parts[0] == 'all'
+    if ['', 'all'].include? parts[0]
       amount = @game.cash
     else
       amount = parts[0].to_i
